@@ -61,5 +61,6 @@ public class LoginSecurityConfig extends WebSecurityConfigurerAdapter {
    /* https://github.com/hantsy/springboot-jwt-sample
     * https://www.baeldung.com/spring-security-authentication-with-a-database
     * https://github.com/eugenp/tutorials/tree/master/spring-security-mvc-boot
+    https://www.youtube.com/watch?v=sm-8qfMWEV8&list=PLqq-6Pq4lTTYTEooakHchTGglSvkZAjnE
     * */
 }
