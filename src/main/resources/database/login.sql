@@ -18,53 +18,27 @@ USE `my_login`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `roles`
+-- Table structure for table `authorities`
 --
 
-DROP TABLE IF EXISTS `roles`;
+DROP TABLE IF EXISTS `authorities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `roles` (
-  `id` int(11) unsigned NOT NULL,
-  `role_name` varchar(45) NOT NULL,
+CREATE TABLE `authorities` (
+  `id` int(10) unsigned NOT NULL,
+  `desc` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `roles`
+-- Dumping data for table `authorities`
 --
 
-LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'god'),(2,'admin'),(3,'user');
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `token`
---
-
-DROP TABLE IF EXISTS `token`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `token` (
-  `id` int(11) NOT NULL,
-  `alphanumeric` varchar(150) NOT NULL,
-  `user_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fkuuserid_idx` (`user_id`),
-  CONSTRAINT `fkuuserid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `token`
---
-
-LOCK TABLES `token` WRITE;
-/*!40000 ALTER TABLE `token` DISABLE KEYS */;
-/*!40000 ALTER TABLE `token` ENABLE KEYS */;
+LOCK TABLES `authorities` WRITE;
+/*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
+INSERT INTO `authorities` VALUES (1,'ROLE_USER'),(2,'ROLE_ADMIN');
+/*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -78,10 +52,10 @@ CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,33 +64,35 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'andreas','$2a$10$3.9Z9O3gh6G5srOBdZX2X.y7p8YJwEPVg30SeGtTbNeyDiJ3CxXv2',1),(2,'sotiris','$2a$10$tnIAFEF1TdlAmLHDT86HXeZiYv7MqBlylaQpOwsceiGS/kMgmXLtS',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `users_roles`
+-- Table structure for table `users_authorities`
 --
 
-DROP TABLE IF EXISTS `users_roles`;
+DROP TABLE IF EXISTS `users_authorities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `users_roles` (
-  `user_id` int(10) unsigned NOT NULL,
-  `role_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`),
-  KEY `fkrid_idx` (`role_id`),
-  CONSTRAINT `fkroleid` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fkuserid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `users_authorities` (
+  `user_id` int(11) unsigned NOT NULL,
+  `authority_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`user_id`,`authority_id`),
+  KEY `fkauthorityid_idx` (`authority_id`),
+  CONSTRAINT `fkaid` FOREIGN KEY (`authority_id`) REFERENCES `authorities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fkuid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users_roles`
+-- Dumping data for table `users_authorities`
 --
 
-LOCK TABLES `users_roles` WRITE;
-/*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
+LOCK TABLES `users_authorities` WRITE;
+/*!40000 ALTER TABLE `users_authorities` DISABLE KEYS */;
+INSERT INTO `users_authorities` VALUES (2,1),(1,2);
+/*!40000 ALTER TABLE `users_authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -128,4 +104,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-18 21:30:41
+-- Dump completed on 2019-10-28 21:31:28
