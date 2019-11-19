@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LoginControllerTest extends BasicWiremockTest {
 
     @Test
-    public void findLeadScoreVariables() throws Exception {
+    public void loginUser() throws Exception {
         this.mockMvc.perform(get( "/user"))
                 .andDo(print())
                 .andExpect(status().isOk())
