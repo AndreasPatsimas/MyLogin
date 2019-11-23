@@ -28,16 +28,20 @@ public class MyUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		log.info("Load user process [username: {}] start", username);
-		
+
 		Optional<User> user = userRepository.findByUsername(username);
-		
+
+		if(user.isPresent()){
+			UserDto userDto = conversionService.convert(user.get(), UserDto.class);
+
+			log.info("Load user process completed");
+
+			return new MyUserDetails(userDto);
+		}
+
 		user.orElseThrow(() -> new UsernameNotFoundException("Not found " + username));
-		
-		UserDto userDto = conversionService.convert(user.get(), UserDto.class);
 
-		log.info("Load user process completed");
-
-		return new MyUserDetails(userDto);
+		return null;
 	}
 
 }
