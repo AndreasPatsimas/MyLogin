@@ -49,21 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/").permitAll()
 			.and().formLogin();
 	}
-
-
-
-
-
-	//	@Override
-//    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//          .withUser("user1").password(passwordEncoder().encode("user1Pass")).roles("USER")
-//          .and()
-//          .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
-//          .and()
-//          .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
-//    }
-// 
    
     @Bean
     public PasswordEncoder passwordEncoder() {
